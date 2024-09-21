@@ -189,13 +189,20 @@ Now, the frontend will be running on [http://localhost:3000](http://localhost:30
 
 pull images from docker hub
 
+```
     docker pull randimasilva/sitemate-frontend-isuue-tracker
+```
+```
     docker pull randimasilva/sitemate-backend-isuue-tracker
+```
 
 then run
-
+```
 docker run -d -p 3000:3000 randimasilva/site-frontend-image
+```
+```
 docker run -d -p 3002:3002 randimasilva/site-backend-image
+```
 
 
 ## Key Commands Summary
