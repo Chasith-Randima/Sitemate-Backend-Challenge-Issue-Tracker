@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      - MONGO_URI=mongodb+srv://issue-tracker-sitemate:d8LFAnPXAj0ImgKb@cluster0.3mhko.mongodb.net/issue-tracker-sitemate?retryWrites=true&w=majority&appName=Cluster0
+      - SESSION_SECRET=your-secret-key
+      - PORT=3002
+      - NODE_ENV=production
+      - JWT_SECRET=thisismyverystrongjwtsecret
+      - JWT_EXPIRES_IN=90d
+      - JWT_COOKIE_EXPIRES_IN=90
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./backend:/usr/src/app
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    environment:
+      - NEXT_PUBLIC_API_DEVELOPMENT=http://backend:3002/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/usr/src/app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
